@@ -2,7 +2,7 @@
 import type { TransactionStep } from "@/types/transaction";
 import { mockRpcRequest } from "./mockRpc";
 import { buildTimeline, isValidContractId, simulateTransaction } from "./transactionSimulator";
-import { simulateWalletFlow } from "./walletSimulator";
+import { describeWalletOutcome, simulateWalletFlow } from "./walletSimulator";
 
 const timelineOrder = ["build", "simulate", "signature", "submit", "confirm"] as const;
 const timelineLabels: Record<(typeof timelineOrder)[number], string> = {
@@ -68,7 +68,7 @@ export function runScenario(scenario: TestScenario): ScenarioResult {
       ok: false,
       title: scenario.title,
       summary: wallet.message,
-      details: [wallet.publicKey ? `Wallet ${wallet.publicKey}` : "No wallet public key available"],
+      details: describeWalletOutcome(wallet),
       timeline: failedTimeline(wallet.connected ? "signature" : "build"),
     };
   }

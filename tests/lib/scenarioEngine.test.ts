@@ -40,4 +40,27 @@ describe("runScenario", () => {
     expect(result.transaction?.status).toBe("pending");
     expect(result.timeline.at(-1)?.status).toBe("active");
   });
+
+  it("connects the wallet but stops before submitting when the signature is rejected", () => {
+    const result = runScenario(scenario("rejected-signature"));
+
+    expect(result.ok).toBe(false);
+    expect(result.summary).toContain("connected successfully");
+    expect(result.summary).toContain("rejected the signature request");
+    expect(result.details).toContain("Wallet connected: yes");
+    expect(result.details).toContain("Signature: rejected");
+    expect(result.details).toContain("No mock transaction was submitted.");
+    expect(result.transaction).toBeUndefined();
+    expect(result.timeline.find((step) => step.id === "signature")?.status).toBe("failed");
+    expect(result.timeline.find((step) => step.id === "submit")?.status).toBe("pending");
+  });
+
+  it("never connects the wallet when the connection itself fails", () => {
+    const result = runScenario(scenario("failed-wallet-connection"));
+
+    expect(result.ok).toBe(false);
+    expect(result.details).toContain("Wallet connected: no");
+    expect(result.details).not.toContain("Signature: rejected");
+    expect(result.transaction).toBeUndefined();
+  });
 });
