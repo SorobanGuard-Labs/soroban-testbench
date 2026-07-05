@@ -1,0 +1,12 @@
+
+> soroban-testbench@0.1.0 dev
+> next dev --port 3000
+
+▲ Next.js 16.2.10 (Turbopack)
+- Local:         http://localhost:3000
+- Network:       http://172.20.10.3:3000
+✓ Ready in 1517ms
+
+○ Compiling /testbench ...
+ GET /testbench 200 in 3.7s (next.js: 3.6s, application-code: 110ms)
+ GET / 200 in 479ms (next.js: 411ms, application-code: 68ms)

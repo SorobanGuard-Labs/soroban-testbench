@@ -1,36 +1,88 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+﻿# Soroban Testbench
 
-## Getting Started
+Soroban Testbench is a mock-first testing playground for Soroban transaction workflows, contract calls, wallet flows, RPC behavior, and failure scenarios. It helps developers test and understand Soroban frontend workflows without requiring real contracts, private keys, or mainnet transactions.
 
-First, run the development server:
+Built by SorobanGuard Labs. This project has no official affiliation with Stellar or Soroban.
+
+## Features
+
+- Landing page and interactive testbench page built with Next.js Pages Router.
+- Contract call scenario builder with reusable mock inputs.
+- Wallet flow simulator for connection failures and rejected signatures.
+- RPC failure simulator for timeouts, rate limits, network outages, and malformed responses.
+- Transaction timeline for build, simulate, sign, submit, and confirm steps.
+- Scenario runner with deterministic mock results and test result cards.
+- TypeScript domain model for scenarios, RPC responses, and transactions.
+- Vitest and React Testing Library coverage for logic, hooks, and components.
+- GitHub Actions CI for linting, typechecking, tests, and production builds.
+
+## Setup
+
+```bash
+npm install
+npm run dev
+```
+
+Open http://localhost:3000 and visit `/testbench` to run mock scenarios.
+
+## Environment
+
+Copy `.env.example` when you want explicit local defaults:
+
+```bash
+NEXT_PUBLIC_SOROBAN_TESTBENCH_DEMO_MODE=true
+NEXT_PUBLIC_DEFAULT_NETWORK=testnet
+```
+
+## Commands
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm run build
+npm run start
+npm run lint
+npm run typecheck
+npm run test
+npm run test:watch
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Usage
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+1. Choose a scenario from the testbench sidebar.
+2. Review the contract call, wallet mode, and RPC failure mode.
+3. Run the scenario.
+4. Inspect the result card and transaction timeline.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Included scenarios cover successful contract calls, failed wallet connection, rejected signature, RPC timeout, contract ID validation failure, pending transaction, failed transaction, and successful simulated transaction.
 
-## Learn More
+## Mock Mode
 
-To learn more about Next.js, take a look at the following resources:
+Soroban Testbench is intentionally mock-first. It does not submit transactions, sign real payloads, store private keys, or connect to mainnet. Mock mode lets frontend teams rehearse UX states before wiring real adapters.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Future adapter TODOs are kept in code for real RPC, real wallet, saved scenarios, scenario import/export, Soroban Guard Kit integration, and Soroban Risk Indexer integration.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Project Structure
 
-## Deploy on Vercel
+```text
+src/components   UI panels and page composition
+src/hooks        React hooks for scenario, wallet, and timeline state
+src/lib          Deterministic mock simulators and scenario engine
+src/pages        Next.js Pages Router routes
+src/types        Shared TypeScript contracts
+src/utils        Constants, formatting helpers, and mock data
+tests            Vitest unit and component tests
+docs             Maintainer and user documentation
+```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Roadmap
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- Real RPC adapter behind an explicit non-demo flag.
+- Real wallet adapter for selected test wallets.
+- Saved local scenarios.
+- Scenario import and export.
+- Integration with Soroban Guard Kit.
+- Integration with Soroban Risk Indexer.
+
+## Contributing
+
+See [CONTRIBUTING.md](./CONTRIBUTING.md). Please keep new features mock-safe by default and include tests for simulator behavior or user-facing workflow changes.
