@@ -11,3 +11,7 @@ Soroban Testbench is a mock-first Next.js Pages Router application. It separates
 - `src/utils/mockData.ts` stores reusable scenarios.
 
 The current implementation never signs, submits, or fetches real network data.
+
+## Accessibility feedback
+
+The scenario result panel announces completed runs through a polite status region, and the transaction timeline exposes a named ordered list of progress steps. This keeps mock execution feedback available to assistive technology without changing the simulator data flow.
