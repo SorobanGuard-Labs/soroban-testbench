@@ -18,6 +18,16 @@ Built by SorobanGuard Labs. This project has no official affiliation with Stella
 
 ## Setup
 
+### Using Docker (Recommended)
+Run the application consistently without managing local Node.js environments.
+```bash
+docker-compose up --build
+```
+
+Open http://localhost:3000 and visit /testbench to run mock scenarios. See docs/getting-started.md for more details.
+
+### Using Node.js
+
 ```bash
 npm install
 npm run dev
