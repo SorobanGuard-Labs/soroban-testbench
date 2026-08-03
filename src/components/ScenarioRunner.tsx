@@ -21,7 +21,7 @@ export function ScenarioRunner() {
         <label className="mt-5 block text-sm font-medium text-slate-700" htmlFor="scenario-select">Scenario</label>
         <select
           id="scenario-select"
-          className="mt-2 w-full rounded-md border border-slate-300 bg-white px-3 py-2 text-sm"
+          className="mt-2 w-full rounded-md border border-slate-300 bg-white px-3 py-2 text-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-700"
           value={selectedScenarioId}
           onChange={(event) => setSelectedScenarioId(event.target.value)}
         >
@@ -29,7 +29,7 @@ export function ScenarioRunner() {
         </select>
         <p className="mt-4 text-sm text-slate-700">{scenario.description}</p>
         <button
-          className="mt-5 inline-flex w-full items-center justify-center gap-2 rounded-md bg-cyan-700 px-4 py-3 text-sm font-semibold text-white hover:bg-cyan-800"
+          className="mt-5 inline-flex w-full items-center justify-center gap-2 rounded-md bg-cyan-700 px-4 py-3 text-sm font-semibold text-white hover:bg-cyan-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-900"
           type="button"
           onClick={() => run()}
         >
