@@ -33,7 +33,8 @@ export const mockScenarios: TestScenario[] = [
     id: "rejected-signature",
     title: "Rejected signature",
     category: "wallet",
-    description: "Stops after simulation when the user rejects the wallet signing prompt.",
+    description:
+      "Connects the mock wallet successfully, then stops when the user rejects the signature prompt so no mock transaction is submitted.",
     input: baseInput,
     rpcFailure: "none",
     walletFailure: "signature_rejected",

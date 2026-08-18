@@ -33,7 +33,11 @@ export function TestResultCard({ result }: { result: ScenarioResult | null }) {
           <span>Status: {result.transaction.status}</span>
           <span>Method: {result.transaction.method}</span>
         </div>
-      ) : null}
+      ) : (
+        <p className="mt-4 rounded-md bg-slate-50 p-3 text-sm text-slate-600">
+          No mock transaction was submitted for this scenario.
+        </p>
+      )}
     </section>
   );
 }
