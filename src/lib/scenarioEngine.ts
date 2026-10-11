@@ -1,5 +1,6 @@
-﻿import type { ScenarioResult, TestScenario } from "@/types/scenario";
+import type { ExportFormat, ExportedScenarioPayload, ScenarioResult, TestScenario } from "@/types/scenario";
 import type { TransactionStep } from "@/types/transaction";
+import { escapeCsvField } from "@/utils/formatting";
 import { mockRpcRequest } from "./mockRpc";
 import { buildTimeline, isValidContractId, simulateTransaction } from "./transactionSimulator";
 import { simulateWalletFlow } from "./walletSimulator";
@@ -95,5 +96,76 @@ export function runScenario(scenario: TestScenario): ScenarioResult {
     transaction,
     timeline: buildTimeline(transaction.status),
   };
+}
+
+export function exportScenarioResultAsJson(result: ScenarioResult): string {
+  const payload: ExportedScenarioPayload = {
+    exportedAt: new Date().toISOString(),
+    scenarioId: result.scenarioId,
+    outcome: result.ok ? "success" : "failure",
+    title: result.title,
+    summary: result.summary,
+    details: result.details,
+    transaction: result.transaction ?? null,
+    timeline: result.timeline,
+  };
+
+  return JSON.stringify(payload, null, 2);
+}
+
+export function exportScenarioResultAsCsv(result: ScenarioResult): string {
+  const headers = [
+    "scenario_id",
+    "outcome",
+    "title",
+    "summary",
+    "details",
+    "tx_id",
+    "tx_status",
+    "ledger",
+    "method",
+    "fee_stroops",
+    "timeline_steps",
+  ];
+
+  const detailsFormatted = result.details.join("; ");
+  const timelineFormatted = result.timeline
+    .map((step) => `${step.id}:${step.status}`)
+    .join("; ");
+
+  const row = [
+    escapeCsvField(result.scenarioId),
+    escapeCsvField(result.ok ? "success" : "failure"),
+    escapeCsvField(result.title),
+    escapeCsvField(result.summary),
+    escapeCsvField(detailsFormatted),
+    escapeCsvField(result.transaction?.id ?? ""),
+    escapeCsvField(result.transaction?.status ?? ""),
+    escapeCsvField(result.transaction?.ledger ?? ""),
+    escapeCsvField(result.transaction?.method ?? ""),
+    escapeCsvField(result.transaction?.feeStroops ?? ""),
+    escapeCsvField(timelineFormatted),
+  ];
+
+  return `${headers.join(",")}\n${row.join(",")}\n`;
+}
+
+export function downloadScenarioResult(result: ScenarioResult, format: ExportFormat): void {
+  if (typeof window === "undefined") return;
+
+  const isJson = format === "json";
+  const content = isJson ? exportScenarioResultAsJson(result) : exportScenarioResultAsCsv(result);
+  const mimeType = isJson ? "application/json" : "text/csv";
+  const filename = `${result.scenarioId}-result.${format}`;
+
+  const blob = new Blob([content], { type: mimeType });
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement("a");
+  link.href = url;
+  link.download = filename;
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+  URL.revokeObjectURL(url);
 }
 
