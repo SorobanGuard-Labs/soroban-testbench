@@ -1,4 +1,4 @@
-﻿import type { RpcFailureMode } from "./rpc";
+import type { RpcFailureMode } from "./rpc";
 import type { SimulatedTransaction, TransactionStep } from "./transaction";
 
 export type WalletFailureMode = "none" | "connection_failed" | "signature_rejected";
@@ -29,5 +29,18 @@ export interface ScenarioResult {
   summary: string;
   details: string[];
   transaction?: SimulatedTransaction;
+  timeline: TransactionStep[];
+}
+
+export type ExportFormat = "json" | "csv";
+
+export interface ExportedScenarioPayload {
+  exportedAt: string;
+  scenarioId: string;
+  outcome: "success" | "failure";
+  title: string;
+  summary: string;
+  details: string[];
+  transaction: SimulatedTransaction | null;
   timeline: TransactionStep[];
 }

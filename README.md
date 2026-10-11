@@ -1,4 +1,4 @@
-﻿# Soroban Testbench
+# Soroban Testbench
 
 Soroban Testbench is a mock-first testing playground for Soroban transaction workflows, contract calls, wallet flows, RPC behavior, and failure scenarios. It helps developers test and understand Soroban frontend workflows without requiring real contracts, private keys, or mainnet transactions.
 
@@ -12,6 +12,7 @@ Built by SorobanGuard Labs. This project has no official affiliation with Stella
 - RPC failure simulator for timeouts, rate limits, network outages, and malformed responses.
 - Transaction timeline for build, simulate, sign, submit, and confirm steps.
 - Scenario runner with deterministic mock results and test result cards.
+- Test result export to JSON and CSV for debugging, sharing, and comparing mock test runs.
 - TypeScript domain model for scenarios, RPC responses, and transactions.
 - Vitest and React Testing Library coverage for logic, hooks, and components.
 - GitHub Actions CI for linting, typechecking, tests, and production builds.
